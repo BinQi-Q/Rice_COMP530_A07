@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# IDE Files
+*.DS_Store
+.vscode
+/.idea/*
+Build/bin/*
+/CMakeLists.txt
+/cmake-build-debug/
+Build/.sconsign.dblite
+Build/*.bin
