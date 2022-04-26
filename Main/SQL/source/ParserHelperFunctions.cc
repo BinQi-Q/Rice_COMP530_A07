@@ -3,7 +3,7 @@
 #define SQL_PARSER_C
 
 #include <iostream>
-#include <stdlib.h>
+#include <cstdlib>
 #include "ExprTree.h"
 #include "../source/Parser.h"
 #include "ParserHelperFunctions.h"

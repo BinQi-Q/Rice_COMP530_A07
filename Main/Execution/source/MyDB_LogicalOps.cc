@@ -3,6 +3,7 @@
 #define LOG_OP_CC
 
 #include "MyDB_LogicalOps.h"
+#include "SFWQuery.h"
 
 // fill this out!  This should actually run the aggregation via an appropriate RelOp, and then it is going to
 // have to unscramble the output attributes and compute exprsToCompute using an execution of the RegularSelection 
@@ -12,6 +13,7 @@
 // Note that after the left and right hand sides have been executed, the temporary tables associated with the two 
 // sides should be deleted (via a kill to killFile () on the buffer manager)
 MyDB_TableReaderWriterPtr LogicalAggregate :: execute () {
+    // TODO
 	return nullptr;
 
 }
@@ -30,12 +32,13 @@ pair <double, MyDB_StatsPtr> LogicalJoin :: cost () {
 	return make_pair (left.first + right.first + outputStats->getTupleCount (), outputStats);
 }
 	
-// Fill this out!  This should recursively execute the left hand side, and then the right hand side, and then
+// Fill this out!  This should recursively execute the left-hand side, and then the right-hand side, and then
 // it should heuristically choose whether to do a scan join or a sort-merge join (if it chooses a scan join, it
 // should use a heuristic to choose which input is to be hashed and which is to be scanned), and execute the join.
-// Note that after the left and right hand sides have been executed, the temporary tables associated with the two 
+// Note that after the left and right-hand sides have been executed, the temporary tables associated with the two
 // sides should be deleted (via a kill to killFile () on the buffer manager)
 MyDB_TableReaderWriterPtr LogicalJoin :: execute () {
+    // TODO
 	return nullptr;
 }
 
@@ -51,6 +54,7 @@ pair <double, MyDB_StatsPtr> LogicalTableScan :: cost () {
 // and the selection predicate is handled at the level of the parent (by filtering, for example, the data that is
 // input into a join)
 MyDB_TableReaderWriterPtr LogicalTableScan :: execute () {
+    // TODO
 	return nullptr;
 }
 
