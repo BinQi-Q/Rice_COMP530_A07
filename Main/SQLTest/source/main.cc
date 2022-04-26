@@ -161,11 +161,22 @@ int main (int numArgs, char **args) {
 						}	
 
 					} else if (final->isSFWQuery ()) {
-
-						LogicalOpPtr myPlan = final->buildLogicalQueryPlan (allTables, allTableReaderWriters);
+                        final -> printSFWQuery();
+						LogicalOpPtr myPlan = final -> buildLogicalQueryPlan (allTables, allTableReaderWriters);
 						if (myPlan != nullptr) {
 							auto res = myPlan->cost ();
 							cout << "cost was " << res.first << "\n";
+                            MyDB_TableReaderWriterPtr outputTable = myPlan -> execute();
+                            MyDB_RecordIteratorAltPtr outputTableIter = outputTable -> getIteratorAlt();
+                            MyDB_RecordPtr outputRec = outputTable -> getEmptyRecord();
+                            for (auto i = 0; i != 30; i++) {
+                                if (outputTableIter -> advance()) {
+                                    outputTableIter ->getCurrent(outputRec);
+                                    cout << outputRec << endl;
+                                } else {
+                                    break;
+                                }
+                            }
 						}
 					}
 
