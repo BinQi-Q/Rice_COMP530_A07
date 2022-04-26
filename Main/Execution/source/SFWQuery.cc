@@ -11,7 +11,10 @@
 LogicalOpPtr SFWQuery :: buildLogicalQueryPlan (map <string, MyDB_TablePtr> &allTables, map <string, MyDB_TableReaderWriterPtr> &allTableReaderWriters) {
 
 	// first, make sure we have exactly two tables... this prototype only works on two tables!!
-	if (tablesToProcess.size () != 2) {
+	if (tablesToProcess.size () == 1) {
+
+    }
+    else if (tablesToProcess.size () != 2) {
 		cout << "Sorry, this currently only works for two-table queries!\n";
 		return nullptr;
 	}
@@ -40,7 +43,7 @@ LogicalOpPtr SFWQuery :: buildLogicalQueryPlan (map <string, MyDB_TablePtr> &all
 	// loop through all of the disjunctions and break them apart
 	for (auto a: allDisjunctions) {
 		bool inLeft = a->referencesTable (tablesToProcess[0].second);
-			bool inRight = a->referencesTable (tablesToProcess[1].second);
+		bool inRight = a->referencesTable (tablesToProcess[1].second);
 		if (inLeft && inRight) {
 			cout << "top " << a->toString () << "\n";
 			topCNF.push_back (a);
