@@ -154,7 +154,7 @@ private:
 	MyDB_TableReaderWriterPtr inputSpec;
 	MyDB_TablePtr outputSpec;
 	MyDB_StatsPtr inputStats;
-        vector <ExprTreePtr> selectionPred;
+    vector <ExprTreePtr> selectionPred;
 	vector <string> exprsToCompute;
 };
 

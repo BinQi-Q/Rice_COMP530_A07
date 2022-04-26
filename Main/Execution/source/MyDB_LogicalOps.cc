@@ -4,6 +4,8 @@
 
 #include "MyDB_LogicalOps.h"
 #include "SFWQuery.h"
+#include "RegularSelection.h"
+#include "BPlusSelection.h"
 
 // fill this out!  This should actually run the aggregation via an appropriate RelOp, and then it is going to
 // have to unscramble the output attributes and compute exprsToCompute using an execution of the RegularSelection 
@@ -54,8 +56,28 @@ pair <double, MyDB_StatsPtr> LogicalTableScan :: cost () {
 // and the selection predicate is handled at the level of the parent (by filtering, for example, the data that is
 // input into a join)
 MyDB_TableReaderWriterPtr LogicalTableScan :: execute () {
-    // TODO
-	return nullptr;
+    MyDB_TableReaderWriterPtr outputTable = make_shared<MyDB_TableReaderWriter>(outputSpec,
+                                                                                inputSpec->getBufferMgr());
+
+    string finalSelectionPredicate = "bool[true]";
+    for (auto i = selectionPred.begin(); i != selectionPred.end(); ++i) {
+        ExprTreePtr expr = *i;
+        if (i == selectionPred.begin()) {
+            finalSelectionPredicate = expr -> toString();
+        }
+        finalSelectionPredicate = "&& (" + expr -> toString() + ", " + finalSelectionPredicate + ")";
+    }
+
+    RegularSelection(inputSpec, outputTable,
+                     finalSelectionPredicate,
+                     exprsToCompute).run();
+
+//    MyDB_BPlusTreeReaderWriterPtr inputBPlus = make_shared<MyDB_BPlusTreeReaderWriter>("name",
+//                                                                       inputSpec ->getTable(),
+//                                                                       inputSpec->getBufferMgr());
+
+    // BPlusSelection(inputBPlus, outputTable, 0, 1, finalSelectionPredicate, exprsToCompute).run();
+	return outputTable;
 }
 
 #endif
