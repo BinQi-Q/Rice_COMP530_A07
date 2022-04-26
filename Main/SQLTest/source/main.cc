@@ -161,22 +161,30 @@ int main (int numArgs, char **args) {
 						}	
 
 					} else if (final->isSFWQuery ()) {
+                        auto start_time = std::chrono::system_clock::now();
                         final -> printSFWQuery();
 						LogicalOpPtr myPlan = final -> buildLogicalQueryPlan (allTables, allTableReaderWriters);
 						if (myPlan != nullptr) {
 							auto res = myPlan->cost ();
 							cout << "cost was " << res.first << "\n";
                             MyDB_TableReaderWriterPtr outputTable = myPlan -> execute();
+                            auto end_time = std::chrono::system_clock::now();
+                            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+                            cout << "Time: "
+                                 << double(duration.count()) * std::chrono::microseconds::period::num / std::chrono::microseconds::period::den
+                                 << " seconds" << std::endl;
                             MyDB_RecordIteratorAltPtr outputTableIter = outputTable -> getIteratorAlt();
                             MyDB_RecordPtr outputRec = outputTable -> getEmptyRecord();
-                            for (auto i = 0; i != 30; i++) {
-                                if (outputTableIter -> advance()) {
+                            unsigned i = 0;
+                            while (outputTableIter -> advance()) {
+                                if (i < 30) {
                                     outputTableIter ->getCurrent(outputRec);
                                     cout << outputRec << endl;
-                                } else {
-                                    break;
                                 }
+                                i++;
                             }
+
+                            cout << "Size was " << i << "\n";
 						}
 					}
 
