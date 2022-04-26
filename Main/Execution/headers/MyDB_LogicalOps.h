@@ -17,7 +17,7 @@ class LogicalOp {
 
 public:
 
-	// get the total cost to execute the logical plan, up to and including this loical operation.
+	// get the total cost to execute the logical plan, up to and including this logical operation.
 	// Note that the MyDB_StatsPtr will point to the set of statistics that come out of executing this plan
 	virtual pair <double, MyDB_StatsPtr> cost () = 0;
 
@@ -46,9 +46,12 @@ public:
 	//    first attribute in outputSpec, the second item in exprsToComput corresponds to the second attribute, etc.
 	// groupings: the various GROUP BY computations we need to perform
 	//
-	LogicalAggregate (LogicalOpPtr inputOp, MyDB_TablePtr outputSpec, vector <ExprTreePtr> &exprsToCompute, 
-		vector <ExprTreePtr> &groupings) : inputOp (inputOp), outputSpec (outputSpec), exprsToCompute (exprsToCompute),
-		groupings (groupings) {}
+	LogicalAggregate (LogicalOpPtr inputOp, MyDB_TablePtr outputSpec,
+                      vector <ExprTreePtr> &exprsToCompute,
+                      vector <ExprTreePtr> &groupings):
+                      inputOp (inputOp), outputSpec (outputSpec),
+                      exprsToCompute (exprsToCompute),
+                      groupings (groupings) {}
 	
 	// fill this out!  This should actually run the aggregation via an appropriate RelOp, and then it is going to
 	// have to unscramble the output attributes and compute exprsToCompute using an execution of the RegularSelection 
